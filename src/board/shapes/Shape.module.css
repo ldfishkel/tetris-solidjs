@@ -1,0 +1,24 @@
+.Shape {
+  width: 119px;
+  height: 119px ;
+  /* background-color: rgb(255, 255, 255); */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  grid-auto-rows: minmax(33px, auto);
+  position: relative;
+}
+
+
+.Square {
+  width: 33px;
+  height: 33px ;
+  background-color: blue;
+  ;
+}
+
+.Row {
+  width: 99px;
+  height: 33px ;
+  background-color: green;
+}
