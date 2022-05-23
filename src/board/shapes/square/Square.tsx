@@ -1,17 +1,19 @@
-import { Component } from "solid-js";
+import Sq from "../../../Model/Square";
 import styles from '../Shape.module.css';
 
-const Square : Component = (props) => {
-    
+interface SquareProps {
+    square : Sq,
+    color : string | undefined
+}
 
-
+function Square(props: SquareProps) {
     return (
         <div style={{
-            'visibility': props.exists ? 'visible' : 'hidden',
-            'grid-column': props.col,
-            'grid-row': props.row
+            'grid-column': props.square.getRelative().x,
+            'grid-row': props.square.getRelative().y,
+            'background-color': props.color || props.square.getColor()
         }} class={styles.Square}></div>
-    )
+    );
 }
 
 export default Square;
