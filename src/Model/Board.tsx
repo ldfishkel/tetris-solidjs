@@ -16,9 +16,29 @@ class Board {
         this.squares = squares
     }
 
+    collapseLines = (lines : number[]) : Board => {
+        lines.reverse().forEach(n => {
+            let changedSquares : Square[] = this.squares.filter(s => s.getRelative().y < n).map(s => new Square(s.getRelative().x, s.getRelative().y + 1, s.getColor()))
+            this.squares = this.squares.filter(s => s.getRelative().y > n)
+            changedSquares.forEach(s => this.squares.push(s))
+        })
+        return this
+    }
+    
+    checkLines = () : Board => {
+        let lines = []
+        for (let i = LIMITS.bottom; i >= LIMITS.top; i--)
+            if (this.squares.filter(s => s.getRelative().y == i).length == LIMITS.right) {
+                this.squares = this.squares.filter(s => s.getRelative().y != i)
+                lines.push(i)
+            }
+
+        return this.collapseLines(lines)
+    }
+
     addSquares(shape: AbstractShape) : Board {
         shape.render().forEach(s => this.squares.push(new Square(shape.getPos().x + s.getRelative().x, shape.getPos().y + s.getRelative().y, s.getColor())))
-        return this
+        return this.checkLines()
     }
 
     private squares : Square[] = []

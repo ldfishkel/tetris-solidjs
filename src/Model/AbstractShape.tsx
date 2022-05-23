@@ -19,6 +19,19 @@ abstract class AbstractShape {
         }
     }
 
+    public moveBottom = (board: Board) : AbstractShape => this.copyWith(this, (shape) => {
+        for (let y = board.bounds().top; y <= board.bounds().bottom + 3; y++) {
+            
+            if (!shape.fitsInHeight(board, y)) {         
+                console.log("setting", y)
+                shape.setYPos(y - 1)
+                return shape
+            }
+        }
+        
+        return shape
+    })
+
     public moveDown = () : AbstractShape => this.copyWith(this, (shape) => {
         shape.setYPos(shape.getPos().y + 1)
         return shape
@@ -55,7 +68,15 @@ abstract class AbstractShape {
 
     public setColor = (color : string) => this.body.forEach(sq => sq.setColor(color))
     
-    public fitsIn = (board : Board) : boolean => !this.body.some((square : Square) => !board.inBounds(this.getPos(), square.getRelative()))
+    public fitsIn = (board : Board) : boolean =>  
+        !this.body.some((square : Square) => !board.inBounds(this.getPos(), square.getRelative())) //bounds
+    && !this.body.some((square : Square) => board.getSquares().some(s => s.getRelative().x == square.getRelative().x + this.posX 
+                                                                      && s.getRelative().y == square.getRelative().y + this.posY)) 
+
+    public fitsInHeight = (board : Board, y : number) : boolean => 
+        !this.body.some((square : Square) => !board.inBounds({ x: this.posX, y: y}, square.getRelative())) 
+     && !this.body.some((square : Square) => board.getSquares().some(s => s.getRelative().x == square.getRelative().x + this.posX 
+                                                                       && s.getRelative().y == square.getRelative().y + y)) 
 
     public abstract copyWith(shape : AbstractShape, modification : (shape: AbstractShape) => AbstractShape) : AbstractShape
 }
