@@ -7,7 +7,7 @@ import Shadow from "./shapes/Shadow";
 import Shape from "./shapes/Shape";
 
 const [shape, setShape] = createSignal(randomShape());
-const [board, setBoard] = createSignal(new BoardModel([]));
+const [board, setBoard] = createSignal(new BoardModel());
 
 const CLOCK_DELAY = 500;    
 
@@ -16,7 +16,8 @@ const onTick = () => {
     if (shapeInstance?.fitsIn(board()))
         setShape(shapeInstance)
     else {
-        setBoard(new BoardModel(board().getSquares()).addSquares(shape()))
+        let newBoard = new BoardModel(board()).addSquares(shape())
+        setBoard(newBoard.collapseLines(newBoard.checkLines()))
         setShape(randomShape())
     }
 }

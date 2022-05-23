@@ -18,33 +18,33 @@ const flipMajorDiagonal = (matrix: any[][]) => {
 }
 
 const reverseEachRow = (matrix: any[][]) => {
-    for (let i = 0; i < matrix.length; i++) 
+    for (let i = 0; i < matrix.length; i++)
         matrix[i].reverse();
 
     return matrix
 }
 
 const initStructure = (dim: number) => {
-    var matrix : (Square | null)[][] = []
-    
-    for(var i: number = 0; i < dim; i++) {
+    var matrix: (Square | null)[][] = []
+
+    for (var i: number = 0; i < dim; i++) {
         matrix[i] = []
-        for(var j: number = 0; j < dim; j++) 
+        for (var j: number = 0; j < dim; j++)
             matrix[i][j] = null
     }
 
-    return { 
-        fillWithData : (data : Square[]) => {
+    return {
+        fillWithData: (data: Square[]) => {
             data.forEach(s => matrix[s.getRelative().x - 1][s.getRelative().y - 1] = s)
             return matrix;
-        } 
+        }
     }
 }
 
 const buildNewBody = (matrix: any[][]) => {
     let newBody = []
-    let square : Square | null = null
-    
+    let square: Square | null = null
+
     for (let i = 0; i < matrix.length; i++)
         for (let j = 0; j < matrix[i].length; j++)
             if (square = matrix[i][j])
@@ -53,9 +53,9 @@ const buildNewBody = (matrix: any[][]) => {
     return newBody
 }
 
-const flip = (dimension : number, body: Square[]) => {
-    let matrix : any[][] = initStructure(dimension).fillWithData(body)
+const flip = (dimension: number, body: Square[]) => {
+    let matrix: any[][] = initStructure(dimension).fillWithData(body)
     return buildNewBody(rotateMatrix(matrix))
 }
-    
+
 export default flip
