@@ -1,3 +1,4 @@
+import axios from "axios";
 import { Component, createSignal } from "solid-js";
 import randomShape from "../Factory/ShapeFactory";
 import BoardModel from "../Model/Board";
@@ -37,7 +38,17 @@ const onKeypress = (event : any) => {
         setShape(shapeInstance)
 }
 
+const init = async()  => {
+    try {
+        const response = await axios.get("/hello")
+        console.log(response)
+    } catch (ex) {
+        console.log(ex)
+    }
+}
+
 const initialize = () => {
+    // init()
     document.addEventListener("keypress", onKeypress, false);
     setInterval(onTick, CLOCK_DELAY)
 }
